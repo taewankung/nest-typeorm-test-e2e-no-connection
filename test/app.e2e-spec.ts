@@ -1,10 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import { UserService } from '../src/user/user.service';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { UserModule } from '../src/user/user.module';
 import { UserRepository } from '../src/user/user.repository';
 
 describe('AppController (e2e)', () => {
@@ -12,13 +9,11 @@ describe('AppController (e2e)', () => {
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [
-        AppModule,
-      ]
-    }
-      ).overrideProvider(UserRepository).useValue({findAll: jest.fn(
-        ()=>[]
-      )}).compile()
+      imports: [AppModule],
+    })
+      .overrideProvider(UserRepository)
+      .useValue({ findAll: jest.fn(() => []) })
+      .compile();
 
     app = moduleFixture.createNestApplication();
     await app.init();
@@ -31,11 +26,12 @@ describe('AppController (e2e)', () => {
       .expect('Hello World!');
   });
 
-  it('/user/findall (GET)', async() => {
+  it('/user/findall (GET)', async () => {
     const res = await request(app.getHttpServer())
       .get('/user/findall')
-      .expect(200).expect([])
-      
-      expect(res.body).toEqual([])
+      .expect(200)
+      .expect([]);
+
+    expect(res.body).toEqual([]);
   });
 });

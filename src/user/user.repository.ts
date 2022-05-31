@@ -6,8 +6,7 @@ import { User } from './entities/user.entity';
 
 @Injectable()
 export class UserRepository extends Repository<User> {
-
-  findAll(){
-    return [{id:1, name: "userInRepo"}]
+  findAll() {
+    return [{ id: 1, name: 'userInRepo' }];
   }
 }

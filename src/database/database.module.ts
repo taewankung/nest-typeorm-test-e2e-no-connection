@@ -3,16 +3,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { env } from 'process';
 import { Connection, ConnectionOptions } from 'typeorm';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
-import { TypeOrmModuleAsyncOptions, TypeOrmModuleOptions } from '@nestjs/typeorm/dist/interfaces/typeorm-options.interface';
 export class DatabaseModule {
   static async forRoot(): Promise<DynamicModule> {
     // await new Promise(resolve => setTimeout(resolve, 1000));
-    if(env.NODE_ENV==='test'){
-
+    if (env.NODE_ENV === 'test') {
       return {
         module: DatabaseModule,
-      }
+      };
     }
+
     return {
       module: TypeOrmModule,
       imports: [
@@ -33,18 +32,19 @@ export class DatabaseModule {
     };
   }
 
-  static async forFeature(entities?: EntityClassOrSchema[], connection?: Connection | ConnectionOptions | string): Promise<DynamicModule> {
+  static async forFeature(
+    entities?: EntityClassOrSchema[],
+    connection?: Connection | ConnectionOptions | string,
+  ): Promise<DynamicModule> {
     // await new Promise(resolve => setTimeout(resolve, 1000));
-    if(env.NODE_ENV==='test'){
+    if (env.NODE_ENV === 'test') {
       return {
         module: DatabaseModule,
-      }
+      };
     }
     return {
       module: TypeOrmModule,
-      imports: [
-        TypeOrmModule.forFeature(entities, connection),
-      ],
+      imports: [TypeOrmModule.forFeature(entities, connection)],
     };
   }
 }
