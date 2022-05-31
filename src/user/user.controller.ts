@@ -12,8 +12,8 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  @Get()
-  findAll() {
+  @Get('findall')
+  findAll(): any {
     return this.userService.findAll();
   }
 

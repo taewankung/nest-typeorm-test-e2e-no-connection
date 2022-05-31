@@ -14,16 +14,16 @@ export class DatabaseModule {
       }
     }
     return {
-      module: DatabaseModule,
+      module: TypeOrmModule,
       imports: [
         TypeOrmModule.forRoot({
           type: 'mysql',
           host: 'localhost',
           port: 3306,
           username: 'root',
-          password: 'root',
-          database: 'test',
-          entities: [__dirname + '/**/*.entity{.js,.ts}'],
+          password: 'password',
+          database: 'firstNest',
+          entities: [__dirname + '/../**/*.entity{.js,.ts}'],
           synchronize: true,
           keepConnectionAlive: true,
           retryAttempts: 2,
@@ -41,7 +41,7 @@ export class DatabaseModule {
       }
     }
     return {
-      module: DatabaseModule,
+      module: TypeOrmModule,
       imports: [
         TypeOrmModule.forFeature(entities, connection),
       ],

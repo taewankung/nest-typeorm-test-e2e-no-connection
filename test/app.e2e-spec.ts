@@ -5,6 +5,7 @@ import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserModule } from '../src/user/user.module';
+import { UserRepository } from '../src/user/user.repository';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
@@ -12,10 +13,12 @@ describe('AppController (e2e)', () => {
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
-        AppModule
-      ]}).overrideProvider(UserService).useValue({
-        list: () => ([])
-      }).compile();
+        AppModule,
+      ]
+    }
+      ).overrideProvider(UserRepository).useValue({findAll: jest.fn(
+        ()=>[]
+      )}).compile()
 
     app = moduleFixture.createNestApplication();
     await app.init();
@@ -26,5 +29,13 @@ describe('AppController (e2e)', () => {
       .get('/')
       .expect(200)
       .expect('Hello World!');
+  });
+
+  it('/user/findall (GET)', async() => {
+    const res = await request(app.getHttpServer())
+      .get('/user/findall')
+      .expect(200).expect([])
+      
+      expect(res.body).toEqual([])
   });
 });
